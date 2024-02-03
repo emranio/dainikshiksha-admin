@@ -1,7 +1,5 @@
 ## Installation
 
-Install my-project with npm
-
 ```bash
   git clone https://github.com/emranio/dainikshiksha-admin
 ```
@@ -22,23 +20,11 @@ composer install --ignore-platform-reqs
 ```
 
 ```bash
-php artisan cache:clear
-```
-
-```bash
-php artisan optimize:clear
-```
-
-```bash
 npm install
 ```
 
 ```bash
 npm run build
-```
-
-```bash
-php artisan storage:link
 ```
 
 ```bash
