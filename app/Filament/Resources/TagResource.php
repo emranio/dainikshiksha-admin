@@ -44,11 +44,13 @@ class TagResource extends Resource
                     ->dehydrated()
                     ->required()
                     ->unique(Tag::class, 'slug', ignoreRecord: true),
-                ColorPicker::make('color'),
+                ColorPicker::make('color')
+                    ->required(),
                 Forms\Components\Toggle::make('active')
                     ->label('Active')
                     ->default(true)
-                    ->columnSpan('full'),
+                    ->columnSpan('full')
+                    ->required(),
                 Select::make('language')
                     ->label('Language')
                     ->options([
@@ -56,7 +58,8 @@ class TagResource extends Resource
                         'bn' => 'Bangla',
                     ])
                     ->default('en')
-                    ->id('language'),
+                    ->id('language')
+                    ->required(),
                 Hidden::make('created_by')->default(auth()->user()->id),
 
             ]);

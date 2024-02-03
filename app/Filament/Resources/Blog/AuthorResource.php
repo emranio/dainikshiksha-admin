@@ -13,6 +13,7 @@ use Filament\Resources\Resource as FResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\ColorColumn;
+use FilamentTiptapEditor\TiptapEditor;
 use RalphJSmit\Filament\MediaLibrary\Forms\Components\MediaPicker;
 use RalphJSmit\Filament\MediaLibrary\Tables\Columns\MediaColumn;
 
@@ -36,16 +37,22 @@ class AuthorResource extends FResource
             ->schema([
                 Forms\Components\TextInput::make('title')
                     ->required(),
-                ColorPicker::make('color'),
-                Forms\Components\MarkdownEditor::make('bio')
-                    ->columnSpan('full'),
+                ColorPicker::make('color')
+                    ->required(),
+                TiptapEditor::make('bio')
+                    ->maxFileSize(2048) // optional, defaults to config setting
+                    // ->output(TiptapOutput::Html) // optional, change the format for saved data, default is html
+                    ->maxContentWidth('5xl')
+                    ->columnSpan('full')
+                    ->required(),
                 MediaPicker::make('photo_id')
                     ->label('Choose Photo')
                     ->required(),
                 Forms\Components\Toggle::make('status')
                     ->label('Active')
                     ->default(true)
-                    ->columnSpan('full'),
+                    ->columnSpan('full')
+                    ->required(),
                 \Filament\Forms\Components\Select::make('language')
                     ->label('Language')
                     ->options([
@@ -53,8 +60,11 @@ class AuthorResource extends FResource
                         'bn' => 'Bangla',
                     ])
                     ->default('en')
-                    ->id('language'),
-                Hidden::make('created_by')->default(auth()->user()->id),
+                    ->id('language')
+                    ->required(),
+                Hidden::make('created_by')
+                    ->default(auth()->user()->id)
+                    ->required(),
             ]);
     }
 

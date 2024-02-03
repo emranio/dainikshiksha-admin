@@ -3,26 +3,20 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\NewsResource\Pages;
-use App\Filament\Resources\NewsResource\RelationManagers\CategoryRelationManager;
 use App\Models\Author;
 use App\Models\News;
-use App\Models\Tag;
 use Filament\Forms;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
-use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
-use Filament\Tables\Filters\TernaryFilter;
-use Illuminate\Database\Eloquent\Builder;
+use FilamentTiptapEditor\TiptapEditor;
 use RalphJSmit\Filament\MediaLibrary\Forms\Components\MediaPicker;
 
 class NewsResource extends Resource
@@ -44,11 +38,19 @@ class NewsResource extends Resource
                     ->label('Title')
                     ->required()
                     ->maxValue(50)
-                    ->live(onBlur: true),
+                    ->live(onBlur: true)
+                    ->afterStateUpdated(fn (string $operation, $state, Forms\Set $set) => $operation === 'create' ? $set('slug', \Str::slug($state)) : null),
+
+                Forms\Components\TextInput::make('slug')
+                    ->disabled()
+                    ->dehydrated()
+                    ->required()
+                    ->unique(News::class, 'slug', ignoreRecord: true),
                 Forms\Components\TextInput::make('social_title')
                     ->label('Seo Title')
                     ->maxValue(50)
-                    ->live(onBlur: true),
+                    ->live(onBlur: true)
+                    ->required(),
                 Forms\Components\TextInput::make('sub_title')
                     ->label('Sub Title')
                     ->maxValue(50)
@@ -57,45 +59,63 @@ class NewsResource extends Resource
                     ->label('Upper Title')
                     ->maxValue(50)
                     ->live(onBlur: true),
-                Forms\Components\MarkdownEditor::make('news_body')
-                    ->label('News Body')
-                    ->default(null)
-                    ->columnSpan('full'),
-                Forms\Components\MarkdownEditor::make('summery')
+                // Forms\Components\MarkdownEditor::make('news_body')
+                //     ->label('News Body')
+                //     ->default(null)
+                //     ->columnSpan('full')
+                //     ->required(),
+                TiptapEditor::make('news_body')
+                    ->maxFileSize(2048) // optional, defaults to config setting
+                    // ->output(TiptapOutput::Html) // optional, change the format for saved data, default is html
+                    ->maxContentWidth('5xl')
+                    ->columnSpan('full')
+                    ->required(),
+                \Filament\Forms\Components\Textarea::make('summery')
                     ->label('Description')
                     ->default(null)
-                    ->columnSpan('full'),
-                Forms\Components\MarkdownEditor::make('social_summery')
+                    ->required(),
+                \Filament\Forms\Components\Textarea::make('social_summery')
                     ->label('Seo Description')
                     ->default(null)
-                    ->columnSpan('full'),
+                    ->required(),
                 Select::make('author_id')
                     ->relationship(name: 'author', titleAttribute: 'title')
+                    ->required()
                     ->preload(),
                 Select::make('category_id')
                     ->multiple()
                     ->relationship(name: 'category', titleAttribute: 'title')
-                    ->preload(),
+                    ->preload()
+                    ->required(),
                 Select::make('tag_id')
                     ->multiple()
                     ->relationship(name: 'tags', titleAttribute: 'title')
-                    ->preload(),
+                    ->preload()
+                    ->required(),
                 Select::make('lead_position')
                     ->multiple()
+                    ->required()
                     ->options([
-                        'draft' => 'Draft',
-                        'reviewing' => 'Reviewing',
-                        'published' => 'Published',
+                        'lead_1' => 'Lead 1',
+                        'lead_2' => 'Lead 2',
+                        'lead_3' => 'Lead 3',
+                        'lead_4' => 'Lead 4',
+                        'lead_5' => 'Lead 5',
+                        'lead_6' => 'Lead 6',
+                        'category_lead' => 'Category Lead',
+                        'ticker' => 'Ticker',
                     ])
-                    ->afterStateUpdated(function (string $operation, $state, Forms\Set $set) {
-                        if ($operation === 'create' || $operation === 'update') {
-                            $leadPosition = implode(',', $state);
-                            $set('lead_position', $leadPosition);
-                        }
-                    }),
+                // ->afterStateUpdated(function (string $operation, $state, Forms\Set $set) {
+                //     if ($operation === 'create' || $operation === 'update' || $operation === 'edit') {
+                //         $leadPosition = is_array($state) ? implode(',', $state) : $state;
+                //         $set('lead_position', $leadPosition);
+                //     }
+                // })
+                ,
                 MediaPicker::make('featured_image')
                     ->multiple()
-                    ->label('Featured Image'),
+                    ->label('Featured Image')
+                    ->required(),
                 MediaPicker::make('social_featured_image')
                     ->multiple()
                     ->label('Social Featured Image'),
@@ -121,9 +141,11 @@ class NewsResource extends Resource
                         'bn' => 'Bangla',
                     ])
                     ->default('en')
-                    ->id('language'),
+                    ->id('language')
+                    ->required(),
                 Hidden::make('updated_by')
-                    ->default(auth()->id()),
+                    ->default(auth()->id())
+                    ->required(),
             ]);
     }
 

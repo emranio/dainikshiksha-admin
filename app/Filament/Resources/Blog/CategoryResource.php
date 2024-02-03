@@ -45,13 +45,16 @@ class CategoryResource extends Resource
                     ->required()
                     ->maxValue(50)
                     ->live(onBlur: true),
-                TextInput::make('seo_title'),
+                TextInput::make('seo_title')
+                    ->required(),
                 \Filament\Forms\Components\Textarea::make('seo_description')
-                    ->columnSpan('full'),
+                    ->columnSpan('full')
+                    ->required(),
                 Forms\Components\Toggle::make('active')
                     ->label('Active')
                     ->default(true)
-                    ->columnSpan('full'),
+                    ->columnSpan('full')
+                    ->required(),
                 \Filament\Forms\Components\Select::make('language')
                     ->label('Language')
                     ->options([
@@ -59,8 +62,11 @@ class CategoryResource extends Resource
                         'bn' => 'Bangla',
                     ])
                     ->default('en')
-                    ->id('language'),
-                Hidden::make('created_by')->default(auth()->user()->id),
+                    ->id('language')
+                    ->required(),
+                Hidden::make('created_by')
+                    ->default(auth()->user()->id)
+                    ->required(),
 
             ]);
     }

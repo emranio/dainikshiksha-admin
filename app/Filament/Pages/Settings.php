@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use App\Models\Settings as ModelsSettings;
 use App\Settings\GeneralSettings;
 use Filament\Forms;
 use Filament\Forms\Components\Repeater;
@@ -71,6 +72,7 @@ class Settings extends SettingsPage
                                                 '_blank' => 'New Page (_blank)',
                                             ])
                                             ->default('_self'),
+                                        TextInput::make('icon_class')->required(),
                                         TextInput::make('link')->required()
                                     ])
                                     ->collapsible()
@@ -140,6 +142,7 @@ class Settings extends SettingsPage
                                                 '_blank' => 'New Page (_blank)',
                                             ])
                                             ->default('_self'),
+                                        TextInput::make('icon_class')->required(),
                                         TextInput::make('link')->required()
                                     ])
                                     ->collapsible()
@@ -177,15 +180,18 @@ class Settings extends SettingsPage
     //     if (!$user->hasRole(['Super Admin'])) {
     //         abort(403);
     //     }
-    // }
-    // public static function isDiscovered(): bool
-    // {
-    //     // dd(self::$canAccessPanel, 'asdfsd', $user = auth()->user());
-    //     return self::$canAccessPanel;
+
+    //     $settings = ModelsSettings::all();
+    //     $value = [];
+    //     foreach ($settings as $setting) {
+    //         $value[$setting->name] = $setting->payload;
+    //     }
+    //     dd($value);
+    //     $this->form->fill($value);
     // }
 
-    // public function mount(): void
+    // public function save(): void
     // {
-    //     static::authorizeResourceAccess();
+    //     dd($this->form->getState()); //$this->form->state();
     // }
 }
