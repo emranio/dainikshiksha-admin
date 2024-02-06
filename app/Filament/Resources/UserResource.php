@@ -49,6 +49,7 @@ class UserResource extends Resource
                 Select::make('role')
                     ->options([
                         'admin' => 'Admin',
+                        'admanager' => 'Ad Manager',
                         'editor' => 'Editor',
                         'reporter' => 'Reporter',
                         'subscriber' => 'Subscriber',

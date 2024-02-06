@@ -20,6 +20,7 @@ return new class() extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->enum('role', [
                 'admin',
+                'admanager',
                 'editor',
                 'reporter',
                 'subscriber',

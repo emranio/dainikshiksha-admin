@@ -15,7 +15,7 @@ class LoginResponse implements LoginResponseContract
     public function toResponse($request)
     {
         // return whatever you want as url
-        $url = auth()->user()->hasRole(['admin', 'editor', 'reporter'])
+        $url = auth()->user()->hasRole(['admin', 'admanager', 'editor', 'reporter'])
              ? '/control-panel/news' 
              : '/';
 
