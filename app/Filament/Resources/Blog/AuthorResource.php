@@ -13,7 +13,6 @@ use Filament\Resources\Resource as FResource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\ColorColumn;
-use FilamentTiptapEditor\TiptapEditor;
 use RalphJSmit\Filament\MediaLibrary\Forms\Components\MediaPicker;
 use RalphJSmit\Filament\MediaLibrary\Tables\Columns\MediaColumn;
 
@@ -39,7 +38,7 @@ class AuthorResource extends FResource
                     ->required(),
                 ColorPicker::make('color')
                     ->required(),
-                TiptapEditor::make('bio')
+                \Filament\Forms\Components\Textarea::make('bio')
                     ->maxFileSize(2048) // optional, defaults to config setting
                     // ->output(TiptapOutput::Html) // optional, change the format for saved data, default is html
                     ->maxContentWidth('5xl')
