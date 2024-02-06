@@ -39,9 +39,6 @@ class AuthorResource extends FResource
                 ColorPicker::make('color')
                     ->required(),
                 \Filament\Forms\Components\Textarea::make('bio')
-                    ->maxFileSize(2048) // optional, defaults to config setting
-                    // ->output(TiptapOutput::Html) // optional, change the format for saved data, default is html
-                    ->maxContentWidth('5xl')
                     ->columnSpan('full')
                     ->required(),
                 MediaPicker::make('photo_id')
