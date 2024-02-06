@@ -1,0 +1,106 @@
+@import '/vendor/filament/filament/resources/css/theme.css';
+
+@config 'tailwind.config.js';
+
+.fi-sidebar-item-icon{
+    display: none !important;
+}
+
+.fi-layout .fi-sidebar{
+    max-width: 200px !important;
+}
+
+.fi-sidebar-group-collapse-button{
+    width: 12px!important;
+}
+
+#fi-news-form .w-full{
+    margin-bottom: 1rem;
+}
+
+#fi-news-form .w-full:last-child{
+    margin-bottom: 0;
+}
+
+#fi-news-form-left,
+#fi-news-form-left > div,
+#fi-news-form-left > div > section
+{
+    display: block;
+    height: 100%;
+}
+
+#fi-news-form ~ .fi-form-actions{
+    display: block;
+    background-color: #454545;
+    padding: .5rem;
+    border-radius: 0.75rem;
+    border: 1px solid #404551;
+    position: fixed;
+    left: auto;
+    right: 1.8rem;
+    bottom: 2px;
+    z-index: 39;
+}
+
+#fi-news-form ~ .fi-form-actions > .justify-start{
+    display: flex;
+    justify-content: center;
+}
+
+.fi-has-media-picker img{
+    border: 1px solid #dcddde;
+    max-height: 250px!important;
+}
+
+aside[x-show="! $store.browseLibrary.isMultiple"] .mt-4.flex.items-start.justify-between{
+    margin-top: 2.5rem!important;
+}
+aside[x-show="! $store.browseLibrary.isMultiple"]{
+    max-width: 200px;
+    padding-top: .5rem;
+}
+
+.grid.flex-1.auto-cols-fr.gap-y-8 aside.sticky.top-24.w-full
+{
+    max-width: 200px;
+    margin-left: .5rem;
+    padding: .5rem;
+    margin-top: .45rem;
+    margin-right: 0;
+}
+
+aside[x-show="! $store.browseLibrary.isMultiple"] .aspect-w-10.overflow-hidden.rounded-lg,
+.grid.flex-1.auto-cols-fr.gap-y-8 aside.sticky.top-24.w-full .aspect-w-10.overflow-hidden.rounded-lg{
+    border: 1px solid #dcddde;
+}
+
+.fi-modal-content {
+    /* padding: .75rem!important; */
+}
+
+.fi-modal-content .mr-8.flex-grow,
+.grid.flex-1.auto-cols-fr.gap-y-8 .mr-8.flex-grow{
+    margin-right: 0!important;
+}
+
+.fi-modal-content .mt-4.h-full.max-h-full{
+    margin: .75rem 0 0 !important;
+    padding: .75rem;
+}
+.grid.flex-1.auto-cols-fr.gap-y-8 .mt-4.h-full.max-h-full{
+    margin: 0.75rem!important;
+}
+
+@media screen and (max-width: 768px) {
+    aside[x-show="! $store.browseLibrary.isMultiple"]{
+        display: none!important;
+    }
+}
+
+@media screen and (min-width: 1280px) {
+    div[x-show="showUploadBox"] ~ .mt-8 .xl\:gap-x-8 {
+        column-gap: .7rem!important;
+        row-gap: 2rem;
+    }
+}
