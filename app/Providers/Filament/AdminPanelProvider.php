@@ -31,7 +31,7 @@ class AdminPanelProvider extends PanelProvider
             ->spa(
                 app()->environment('production')
             )
-            // ->darkMode(false)
+            ->darkMode(\env('FILAMENT_DARK_MODE', false))
             ->colors([
                 'danger' => Color::Rose,
                 'gray' => [
