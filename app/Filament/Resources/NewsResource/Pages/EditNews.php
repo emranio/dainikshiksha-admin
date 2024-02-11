@@ -13,6 +13,10 @@ class EditNews extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
+            Actions\Action::make('create')
+                ->label('New News')
+                ->url('/control-panel/news/create'),
+
             Actions\DeleteAction::make(),
         ];
     }

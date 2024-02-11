@@ -4,16 +4,9 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\CategoryResource\Pages;
 use App\Models\Category;
-use Filament\Facades\Filament;
 use Filament\Forms;
-use Filament\Forms\Components\Card;
-use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Form;
-use Filament\Infolists\Components\IconEntry;
-use Filament\Infolists\Components\TextEntry;
-use Filament\Infolists\Infolist;
-use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -22,20 +15,14 @@ use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
 use Filament\Tables\Columns\ColorColumn;
-use Filament\Tables\Columns\Column;
-use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Enums\FiltersLayout;
-use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 
 class CategoryResource extends Resource
 {
     protected static ?string $model =   Category::class;
     protected static ?string $slug = 'categories';
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
     {
@@ -71,7 +58,7 @@ class CategoryResource extends Resource
                         'en' => 'English',
                         'bn' => 'Bangla',
                     ])
-                    ->default('en')
+                    ->default('bn')
                     ->required(),
                 
                 Hidden::make('created_by')
@@ -112,7 +99,7 @@ class CategoryResource extends Resource
                         'en' => 'English',
                         'bn' => 'Bangla',
                     ])
-                ], layout: FiltersLayout::AboveContentCollapsible)
+                ])
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),

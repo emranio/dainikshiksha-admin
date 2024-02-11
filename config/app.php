@@ -15,6 +15,17 @@ return [
 
     'name' => env('APP_NAME', 'DainikShiksha'),
 
+    'news_position' => [
+        'lead_1' => 'Lead 1',
+        'lead_2' => 'Lead 2',
+        'lead_3' => 'Lead 3',
+        'lead_4' => 'Lead 4',
+        'lead_5' => 'Lead 5',
+        'lead_6' => 'Lead 6',
+        'category_lead' => 'Category Lead',
+        'ticker' => 'Ticker',
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment

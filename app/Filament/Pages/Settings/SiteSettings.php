@@ -17,7 +17,7 @@ class SiteSettings extends SettingsPage
     protected static ?string $slug = 'site-setting';
     protected static string $settings = SiteSettingsSpite::class;
 
-    // protected static ?string $navigationLabel = 'Site Settings';
+    protected static ?int $navigationSort = 100;
     protected static ?string $navigationGroup = 'System';
     public static function canAccess(): bool
     {

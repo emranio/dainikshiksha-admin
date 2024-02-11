@@ -27,7 +27,7 @@ class News extends Model implements HasMedia
         return $this->belongsTo(Author::class, 'author_id', 'id');
     }
 
-    public function category(): BelongsToMany
+    public function categories(): BelongsToMany
     {
         return $this->belongsToMany(Category::class);
     }
@@ -35,10 +35,5 @@ class News extends Model implements HasMedia
     public  function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class);
-    }
-
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'created_by', 'id');
     }
 }

@@ -3,9 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
-use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
-use Filament\Forms;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -13,9 +11,9 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 
 class UserResource extends Resource
@@ -24,6 +22,7 @@ class UserResource extends Resource
     protected static ?string $slug = 'users';
     protected static ?string $navigationIcon = 'heroicon-o-users';
     protected static ?string $navigationGroup = 'User';
+    protected static ?int $navigationSort = 90;
 
     public static function form(Form $form): Form
     {
@@ -77,7 +76,14 @@ class UserResource extends Resource
                     ->sortable()
             ])
             ->filters([
-                //
+                SelectFilter::make('role')
+                    ->options([
+                        'admin' => 'Admin',
+                        'admanager' => 'Ad Manager',
+                        'editor' => 'Editor',
+                        'reporter' => 'Reporter',
+                        'subscriber' => 'Subscriber',
+                    ]),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

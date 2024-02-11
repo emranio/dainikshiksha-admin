@@ -5,6 +5,7 @@ namespace App\Providers\Filament;
 use App\Filament\Pages\Auth\Login;
 use App\Filament\Resources\AuthorResource;
 use App\Filament\Resources\CategoryResource;
+use App\Filament\Resources\CommentResource;
 use App\Filament\Resources\NewsResource;
 use App\Filament\Resources\TagResource;
 use App\Filament\Resources\UserResource;
@@ -57,6 +58,7 @@ class AdminPanelProvider extends PanelProvider
             ->brandName('DainikShiksha')
             ->brandLogo(asset('images/dainikshiksha-logo.png'))
             ->brandLogoHeight('auto')
+            ->sidebarFullyCollapsibleOnDesktop(true)
             ->favicon(asset('favicon.png'))
             ->path('control-panel')
             ->login(Login::class)
@@ -65,6 +67,7 @@ class AdminPanelProvider extends PanelProvider
                 AuthorResource::class,
                 TagResource::class,
                 CategoryResource::class,
+                CommentResource::class,
                 UserResource::class,
             ])
             ->pages([

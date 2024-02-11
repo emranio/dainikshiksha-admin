@@ -3,31 +3,23 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\TagResource\Pages;
-use App\Filament\Resources\TagResource\RelationManagers;
 use App\Models\Tag;
-use Faker\Core\Color;
-use Filament\Forms;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
-use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\ColorColumn;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
-use Illuminate\Support\Str;
-
 
 class TagResource extends Resource
 {
     protected static ?string $model =   Tag::class;
     protected static ?string $slug = 'tag';
-    protected static ?string $navigationIcon = 'heroicon-m-squares-plus';
 
     public static function form(Form $form): Form
     {
@@ -46,7 +38,7 @@ class TagResource extends Resource
                         'en' => 'English',
                         'bn' => 'Bangla',
                     ])
-                    ->default('en')
+                    ->default('bn')
                     ->id('language')
                     ->required(),
 
@@ -89,7 +81,7 @@ class TagResource extends Resource
                         'bn' => 'Bangla',
                         'en' => 'English',
                     ])
-            ], layout: FiltersLayout::AboveContentCollapsible)
+            ])
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),

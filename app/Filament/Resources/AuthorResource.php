@@ -4,10 +4,8 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\AuthorResource\Pages;
 use App\Models\Author;
-use Filament\Forms;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Hidden;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -18,8 +16,6 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\ColorColumn;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Enums\FiltersLayout;
-use FilamentTiptapEditor\TiptapEditor;
 use RalphJSmit\Filament\MediaLibrary\Forms\Components\MediaPicker;
 use RalphJSmit\Filament\MediaLibrary\Tables\Columns\MediaColumn;
 
@@ -27,7 +23,6 @@ class AuthorResource extends FResource
 {
     protected static ?string $model = Author::class;
     protected static ?string $slug = 'authors';
-    protected static ?string $navigationIcon = 'heroicon-s-user-circle';
 
     public static function form(Form $form): Form
     {
@@ -51,7 +46,7 @@ class AuthorResource extends FResource
                         'en' => 'English',
                         'bn' => 'Bangla',
                     ])
-                    ->default('en')
+                    ->default('bn')
                     ->required(),
 
                 MediaPicker::make('thumbnail')
@@ -101,7 +96,7 @@ class AuthorResource extends FResource
                         'en' => 'English',
                         'bn' => 'Bangla',
                     ]),
-            ], layout: FiltersLayout::AboveContentCollapsible)
+            ])
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),

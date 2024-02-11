@@ -27,7 +27,7 @@
 #fi-news-form-left > div > section
 {
     display: block;
-    height: 100%;
+    /* height: 100%; */
 }
 
 #fi-news-form ~ .fi-form-actions{
@@ -92,15 +92,28 @@ aside[x-show="! $store.browseLibrary.isMultiple"] .aspect-w-10.overflow-hidden.r
     margin: 0.75rem!important;
 }
 
-@media screen and (max-width: 768px) {
+#fi-news-form .col-[--col-span-default]{
+    grid-column: span 2;
+}
+
+@media (max-width: 768px) {
     aside[x-show="! $store.browseLibrary.isMultiple"]{
         display: none!important;
     }
 }
 
-@media screen and (min-width: 1280px) {
+@media (max-width: 1023px) {
+    #fi-news-form > div{
+        --col-span-default: span 10 / span 10!important;
+    }
+}
+
+@media (min-width: 1280px) {
     div[x-show="showUploadBox"] ~ .mt-8 .xl\:gap-x-8 {
         column-gap: .7rem!important;
         row-gap: 2rem;
+    }
+    .fi-main {
+        padding-left: 0!important;
     }
 }

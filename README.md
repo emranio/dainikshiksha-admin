@@ -34,3 +34,8 @@ php artisan migrate
 ```bash
 php artisan db:seed
 ```
+
+To clear cache
+```bash
+php artisan optimize:clear
+```

@@ -21,6 +21,8 @@ class Profile extends Page implements HasForms
     protected static ?string $slug = 'profile';
     protected static ?string $navigationIcon = 'heroicon-o-user';
     protected static ?string $navigationGroup = 'User';
+
+    protected static ?int $navigationSort = 85;
     public ?array $data = [];
 
     public function form(Form $form): Form
@@ -67,7 +69,7 @@ class Profile extends Page implements HasForms
                     ->send();
             }
         } catch (Halt $exception) {
-            dd($exception);
+            // dd($exception);
             return;
         }
     }
@@ -79,7 +81,6 @@ class Profile extends Page implements HasForms
             [
                 'name' => $user->name,
                 'email' => $user->email,
-                'avater' => $user->avater,
                 'created_at' => $user->created_at,
             ]
         );

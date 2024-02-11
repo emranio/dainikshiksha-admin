@@ -19,32 +19,38 @@ return new class extends Migration
             $table->string('sub_title')->nullable();
             $table->string('upper_title')->nullable();
 
-            $table->text('news_body')->nullable();
-            $table->text('summary')->nullable();
-            $table->text('social_summary')->nullable();
-            //image
-            $table->string('thumbnail')->nullable();
-            $table->string('social_thumbnail')->nullable();
+            $table->string('title_color')->nullable();
+            $table->string('title_size')->nullable();
+            $table->string('sub_title_color')->nullable();
+            $table->string('upper_title_color')->nullable();
 
-            $table->foreignId('author_id')->constrained(
+            $table->longText('news_body')->nullable();
+            $table->mediumText('summary')->nullable();
+            $table->mediumText('social_summary')->nullable();
+            //image
+            $table->bigInteger('thumbnail')->nullable();
+            $table->bigInteger('social_thumbnail')->nullable();
+
+            $table->foreignId('author_id')->nullable()->constrained(
                 table: 'authors',
                 indexName: 'id'
             );
-
-            $table->unsignedBigInteger('updated_by');
-            $table->foreign('updated_by')->references('id')->on('users')->onDelete('cascade');
 
             $table->json('position')->nullable();
             $table->boolean('show_created_at')->default(1);
             $table->boolean('show_updated_at')->default(1);
             $table->boolean('show_thumbnail')->default(1);
-            $table->enum('language', ['en', 'bn'])->default('en');
+            $table->enum('language', ['en', 'bn'])->default('bn');
             $table->enum('status', [
                 'draft',
                 'reviewing',
                 'published',
             ])->default('draft');
             $table->timestamps();
+
+            $table->foreignId('created_by')->nullable()->constrained('users');
+            $table->foreignId('updated_by')->nullable()->constrained('users');
+
         });
 
         Schema::create('category_news', function (Blueprint $table) {

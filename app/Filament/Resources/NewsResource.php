@@ -3,24 +3,24 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\NewsResource\Pages;
-use App\Models\Author;
 use App\Models\News;
+use DateTime;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms;
 use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\ColorPicker;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Split;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Enums\FiltersLayout;
-use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use FilamentTiptapEditor\TiptapEditor;
 use RalphJSmit\Filament\MediaLibrary\Forms\Components\MediaPicker;
@@ -31,49 +31,93 @@ class NewsResource extends Resource
     protected static ?string $model = News::class;
     protected static ?string $slug = 'news';
     protected static ?string $breadcrumb = 'News';
-    protected static ?string $navigationIcon = 'heroicon-s-pencil-square';
 
     public static function form(Form $form): Form
     {
         return $form
         ->columns([
             'sm' => 1,
-            'xl' => 8,
-            '2xl' => 8,
+            'lg' => 10,
+            'xl' => 10,
         ])
         ->schema([
             Split::make([
                 Section::make([
+                    Select::make('title_size')
+                        ->label('Title/ Heading Size')
+                        ->options([
+                            '.96' => '0.96rem',
+                            '1' => '1.00rem',
+                            '1.04' => '1.04rem',
+                            '1.08' => '1.08rem',
+                            '1.12' => '1.12rem',
+                            '1.16' => '1.16rem',
+                            '1.20' => '1.20rem',
+                            '1.24' => '1.24rem - default',
+                            '1.25' => '1.25rem',
+                            '1.28' => '1.28rem',
+                            '1.32' => '1.32rem',
+                            '1.36' => '1.36rem',
+                            '1.48' => '1.48rem',
+                            '1.52' => '1.52rem',
+                            '1.56' => '1.56rem',
+                            '1.60' => '1.60rem',
+                            '1.64' => '1.64rem',
+                        ])
+                        ->default('1.24'),
+
+                    ColorPicker::make('title_color')
+                        ->label('Text Color')
+                        ->inlineLabel(), 
+                        
                     TextInput::make('upper_title')
                         ->label('Upper Title/ Secondary Heading')
                         ->maxValue(255),
 
+                    ColorPicker::make('upper_title_color')
+                        ->label('Text Color')
+                        ->inlineLabel(),
+
                     TextInput::make('sub_title')
                         ->label('Sub Title/ Secondary Heading')
                         ->maxValue(255),
-                        
-                    Select::make('position')
-                        ->multiple()
-                        ->required()
-                        ->options([
-                            'lead_1' => 'Lead 1',
-                            'lead_2' => 'Lead 2',
-                            'lead_3' => 'Lead 3',
-                            'lead_4' => 'Lead 4',
-                            'lead_5' => 'Lead 5',
-                            'lead_6' => 'Lead 6',
-                            'category_lead' => 'Category Lead',
-                            'ticker' => 'Ticker',
-                        ]),
 
+                    ColorPicker::make('sub_title_color')
+                        ->label('Text Color')
+                        ->inlineLabel(),
+                ]),
+
+                Section::make([
+                    Select::make('status')
+                        ->label('Publishing Status')
+                        ->hiddenLabel()
+                        ->options([
+                            'draft' => 'Draft',
+                            'reviewing' => 'Reviewing',
+                            'published' => 'Published',
+                        ])
+                        ->default('draft')
+                        ->required(),
+    
+                    Select::make('language')
+                        ->hiddenLabel()
+                        ->label('Language')
+                        ->options([
+                            'en' => 'English',
+                            'bn' => 'Bangla',
+                        ])
+                        ->default('bn')
+                        ->required(),
+                    
                     Select::make('author_id')
                         ->relationship(name: 'author', titleAttribute: 'title')
                         ->required()
-                        ->preload(),
+                        ->preload()
+                        ->searchable(),
     
                     Select::make('category_id')
                         ->multiple()
-                        ->relationship(name: 'category', titleAttribute: 'title')
+                        ->relationship(name: 'categories', titleAttribute: 'title')
                         ->preload()
                         ->required(),
     
@@ -84,47 +128,26 @@ class NewsResource extends Resource
                         ->required(),
 
                     Checkbox::make('show_created_at')
-                        ->id('show_created_at')
-                        ->label('Show Created At'),
+                        ->default(true)
+                        ->label('Show Created Date'),
     
                     Checkbox::make('show_updated_at')
-                        ->id('show_updated_at')
-                        ->label('Show Update At')
+                        ->label('Show Updated Date')
                         ->inline(),
     
                     Checkbox::make('show_thumbnail')
-                        ->id('show_thumbnail')
+                        ->default(true)
                         ->label('Show Featured Image')
                         ->inline(),
-    
-                    Select::make('status')
-                        ->label('Publishing Status')
-                        ->options([
-                            'draft' => 'Draft',
-                            'reviewing' => 'Reviewing',
-                            'published' => 'Published',
-                        ])
-                        ->default('draft')
-                        ->required(),
-    
-                    Select::make('language')
-                        ->label('Language')
-                        ->options([
-                            'en' => 'English',
-                            'bn' => 'Bangla',
-                        ])
-                        ->default('en')
-                        ->required(),
     
                     Hidden::make('updated_by')
                         ->default(auth()->id())
                         ->required(),
                 ])
                 
-
             ])
             ->extraAttributes(['style' => 'display:block', 'id' => 'fi-news-form-left'])
-            ->columnSpan(2),
+            ->columnSpan(3),
 
             Split::make([
                 Section::make([
@@ -147,6 +170,22 @@ class NewsResource extends Resource
                         ->required()
                         ->unique(News::class, 'slug', ignoreRecord: true),
 
+                    Grid::make(2)
+                        ->schema([
+                        DateTimePicker::make('created_at')
+                            ->default((new DateTime())->format('Y-m-d H:i:s'))
+                            ->label('Created Date')
+                            ->columnSpan(1)
+                            ->required(),
+                            
+                        Select::make('position')
+                            ->multiple()
+                            ->label('News Position in Site Layout')
+                            ->required()
+                            ->columnSpan(1)
+                            ->options(\config('app.news_position')),
+                    ]),
+
                     Textarea::make('summary')
                         ->label('News Summary')
                         ->default(null)
@@ -156,13 +195,11 @@ class NewsResource extends Resource
                         ->label('News Summary for Social Share & SEO')
                         ->default(null)
                         ->required(),
-                    // Toggle::make('is_featured'),
                 ]),
 
                 Section::make([
                     MediaPicker::make('thumbnail')
-                        ->label('News Thumbnail Image')
-                        ->required(),
+                        ->label('News Thumbnail Image'),
     
                     MediaPicker::make('social_thumbnail')
                         ->label('News Thumbnail Image for Social Share & SEO'),
@@ -181,7 +218,7 @@ class NewsResource extends Resource
                 ]),
             ])
             ->extraAttributes(['style' => 'display:block', 'id' => 'fi-news-form-right'])
-            ->columnSpan(6)
+            ->columnSpan(7)
         ])->extraAttributes(['id' => 'fi-news-form']);
 
     }
@@ -194,14 +231,17 @@ class NewsResource extends Resource
                     ->description(fn (News $record): string => Str::limit($record->description, 20, '...') ?? '...')
                     ->searchable(),
 
-                Tables\Columns\TextColumn::make('language')
+                TextColumn::make('language')
                     ->getStateUsing(fn (News $record): string => $record->language == 'en' ? 'en' : 'bn')
                     ->badge()
                     ->color(fn (News $record): string => $record->language == 'en' ? 'success' : 'warning'),
 
-                TextColumn::make('created_at')
-                    ->label('Last Created')
-                    ->dateTime(),
+                TextColumn::make('status')
+                    ->badge()
+                    ->color(fn (News $record): string => $record->status == 'published' ? 'success' : 'danger'),
+            
+                TextColumn::make('position')
+                ->wrap(),
 
                 TextColumn::make('updated_at')
                     ->label('Updated')
@@ -224,20 +264,22 @@ class NewsResource extends Resource
 
                 SelectFilter::make('category_id')
                     ->label('category')
-                    ->multiple()
                     ->preload()
-                    ->relationship('category', 'title'),
+                    ->searchable()
+                    ->relationship('categories', 'title'),
 
                 SelectFilter::make('tag_id')
                     ->label('Tag')
-                    ->multiple()
+                    ->preload()
+                    ->searchable()
                     ->relationship('tags', 'title'),
 
                 SelectFilter::make('author_id')
                     ->label('Author')
-                    ->options(Author::all()->pluck('id', 'title'))
-                    ->attribute('author.title'),
-                ], layout: FiltersLayout::AboveContentCollapsible)
+                    ->relationship('author', 'title')
+                    ->preload()
+                    ->searchable(),
+                ])
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])
@@ -248,7 +290,7 @@ class NewsResource extends Resource
     public static function getRelations(): array
     {
         return [
-            // CategoryRelationManager::class,
+            //
         ];
     }
 
