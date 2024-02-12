@@ -145,7 +145,9 @@ class PollResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManagePolls::route('/'),
+            'index' => Pages\ListPoll::route('/'),
+            'create' => Pages\CreatePoll::route('/create'),
+            'edit' => Pages\EditPoll::route('/{record}/edit'),
         ];
     }
 }

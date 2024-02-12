@@ -123,7 +123,9 @@ class AuthorResource extends FResource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageAuthors::route('/'),
+            'index' => Pages\ListAuthor::route('/'),
+            'create' => Pages\CreateAuthor::route('/create'),
+            'edit' => Pages\EditAuthor::route('/{record}/edit'),
         ];
     }
 }
