@@ -6,6 +6,7 @@ use App\Models\Author;
 use App\Models\Category;
 use App\Models\Comment;
 use App\Models\News;
+use App\Models\Poll;
 use App\Models\Settings;
 use App\Models\Tag;
 use App\Models\User;
@@ -14,6 +15,7 @@ use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvid
 use App\Policies\CategoryPolicy;
 use App\Policies\CommentPolicy;
 use App\Policies\NewsPolicy;
+use App\Policies\PollPolicy;
 use App\Policies\SettingsPolicy;
 use App\Policies\TagPolicy;
 use App\Policies\UserPolicy;
@@ -30,6 +32,8 @@ class AuthServiceProvider extends ServiceProvider
         Category::class => CategoryPolicy::class,
         Tag::class => TagPolicy::class,
         Comment::class => CommentPolicy::class,
+        Settings::class => SettingsPolicy::class,
+        Poll::class => PollPolicy::class,
         News::class => NewsPolicy::class,
         Author::class => AuthorPolicy::class,
     ];

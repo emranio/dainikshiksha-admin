@@ -7,6 +7,7 @@ use App\Filament\Resources\AuthorResource;
 use App\Filament\Resources\CategoryResource;
 use App\Filament\Resources\CommentResource;
 use App\Filament\Resources\NewsResource;
+use App\Filament\Resources\PollResource;
 use App\Filament\Resources\TagResource;
 use App\Filament\Resources\UserResource;
 use App\Http\Middleware\Authenticate;
@@ -68,6 +69,7 @@ class AdminPanelProvider extends PanelProvider
                 TagResource::class,
                 CategoryResource::class,
                 CommentResource::class,
+                PollResource::class,
                 UserResource::class,
             ])
             ->pages([
