@@ -37,7 +37,7 @@ class SocialiteController extends Controller
 
         auth()->login($user);
 
-        return redirect()->intended('/');
+        return redirect()->intended('/control-panel');
     }
 
     protected function validateProvider(string $provider): array
