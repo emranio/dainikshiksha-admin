@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\SocialiteController;
 use App\Livewire\Form;
 use App\Models\User;
@@ -57,5 +58,7 @@ Route::get('/test', function () {
     // create new news
     $news = \App\Models\News::create($newsData);
     dd($news->toArray());
-
 });
+
+Route::get('/comment', [CommentController::class, 'index'])->name('comments.index');
+Route::post('/comment/store', [CommentController::class, 'store'])->name('comments.store');
